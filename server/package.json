@@ -1,10 +1,25 @@
 {
+  "name": "server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "bin": {
+    "server": "bin/www.js"
+  },
+  "scripts": {
+    "dev": "npx nodemon ./app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "imagekit": "^5.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.7.0"
+    "mongodb": "^6.7.0",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.2"

@@ -23,12 +23,17 @@ const getProduct = async (id) => {
 
 const addProduct = async (payload) => {
     const db = await getCollection()
+    const totalProducts = await db.collection(productCollection).count()
+
     const newProduct = {
-        ...payload
+        id: totalProducts + 1,
+        ...payload,
+        image: payload.image.url
     }
 
     const result = await db.collection(productCollection).insertOne(newProduct)
-    return result
+    const createdProduct = await db.collection(productCollection).findOne({ _id: result.insertedId })
+    return createdProduct
 }
 
 module.exports = {
