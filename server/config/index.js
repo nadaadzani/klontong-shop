@@ -5,7 +5,7 @@ let client;
 
 if (!connectionString) throw new Error('Connection string is required')
 
-export const getMongoClientInstance = async () => {
+const getMongoClientInstance = async () => {
     if (!client) {
         client = await MongoClient.connect(connectionString)
         await client.connect()
@@ -13,3 +13,5 @@ export const getMongoClientInstance = async () => {
 
     return client
 }
+
+module.exports = getMongoClientInstance

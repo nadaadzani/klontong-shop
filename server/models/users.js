@@ -5,28 +5,40 @@ const { hashPass, comparePass } = require('../utils/bcrypt')
 const database = process.env.MONGO_DB_NAME
 const userCollection = 'users'
 
-export const getCollection = async () => {
+const getCollection = async () => {
     const client = await getMongoClientInstance()
     const db = client.db(database)
     return db;
 }
 
-export const registerUser = async (user) => {
+const registerUser = async (username, password) => {
     const db = await getCollection()
     const newUser = {
-        ...user,
-        password: hashPass(user.password)
+        username,
+        password: hashPass(password)
     }
+
+    // Check if user already exists
+    const sameUser = await db.collection(userCollection).findOne({ username: user.username })
+    if (sameUser) return 'UserAlreadyExists'
+
     const result = db.collection(userCollection).insertOne(newUser)
     return result
 }
 
-export const loginUser = async (username, password) => {
+const loginUser = async (username, password) => {
     const db = await getCollection()
-    const user = db.collection(userCollection).findOne({ username: username })
+    const user = await db.collection(userCollection).findOne({ username: username })
 
+    // Check if user is not found and password is not correct
     if (!user) return 'InvalidCredentials'
     if (!comparePass(password, user.password)) return 'InvalidCredentials'
 
     return user
+}
+
+module.exports = {
+    getCollection,
+    registerUser,
+    loginUser
 }
