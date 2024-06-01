@@ -1,4 +1,4 @@
-const db = require('mongodb').Db
+// const db = require('mongodb').Db
 const getMongoClientInstance = require('../config/index')
 const { hashPass, comparePass } = require('../utils/bcrypt')
 
@@ -19,7 +19,7 @@ const registerUser = async (username, password) => {
     }
 
     // Check if user already exists
-    const sameUser = await db.collection(userCollection).findOne({ username: user.username })
+    const sameUser = await db.collection(userCollection).findOne({ username })
     if (sameUser) return 'UserAlreadyExists'
 
     const result = db.collection(userCollection).insertOne(newUser)
