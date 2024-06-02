@@ -1,24 +1,69 @@
 <script setup>
 import Navbar from '../components/Navbar.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 const totalItems = ref(100)
 
+// Products data
+const data = ref([])
+const loading = ref(true)
+const error = ref(null)
+const router = useRouter()
+const route = useRoute()
+
+const offset = computed(() => (currentPage.value - 1) * 10)
+
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value))
 
-const prevPage = () => {
+const prevPage = async () => {
   if (currentPage.value > 1) {
     currentPage.value--
   }
+  await fetchProducts()
+  updateURL()
 }
 
-const nextPage = () => {
+const nextPage = async () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
   }
+  await fetchProducts()
+  updateURL()
 }
+
+const updateURL = () => {
+  router.push({ query: { page: currentPage.value } })
+}
+
+const fetchProducts = async () => {
+  try {
+    loading.value = true
+    const response = await fetch(`http://localhost:3000/products?offset=${offset.value}`)
+    data.value = await response.json()
+  } catch (err) {
+    error.value = err
+    console.log(err.message)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(async () => {
+  const page = Number(route.query.page) || 1
+  currentPage.value = page
+  await fetchProducts()
+})
+
+watch(
+  () => currentPage.value,
+  async () => {
+    // console.log('Page changed:', currentPage)
+    await fetchProducts()
+  }
+)
 </script>
 
 <template>
@@ -50,18 +95,45 @@ const nextPage = () => {
     <!-- Card container (Reusable component) -->
     <div class="w-[95%] mx-auto bg-gray-200 h-[32rem] mt-10">
       <div class="flex gap-8 mb-8">
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
+        <div v-for="product in data.data?.slice(0, 5)" class="w-72 h-72 border-4 border-black">
+          <!-- {{ console.log(data) }} -->
+          <img :src="product.image" alt="pic" class="w-full h-36" />
+          <div class="w-[95%] mx-auto flex justify-between mt-2">
+            <h4 class="text-xs">{{ product.name }}</h4>
+            <p class="text-sm font-semibold">Rp. {{ product.price }}</p>
+          </div>
+          <p class="w-[95%] mx-auto mt-4 text-sm">{{ product.description }}</p>
+
+          <div class="w-full bg-cyan-800 text-center mt-[1.75rem]">
+            <router-link
+              :to="`product/${product.id}`"
+              class="w-[95%] mx-auto mt-full text-sm text-white font-bold text-center"
+            >
+              View product
+            </router-link>
+          </div>
+        </div>
       </div>
+
       <div class="flex gap-8">
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
-        <div class="w-72 h-72 bg-gray-400"></div>
+        <div v-for="product in data.data?.slice(5, 10)" class="w-72 h-72 border-4 border-black">
+          <!-- {{ console.log(data) }} -->
+          <img :src="product.image" alt="pic" class="w-full h-36" />
+          <div class="w-[95%] mx-auto flex justify-between mt-2">
+            <h4 class="text-xs">{{ product.name }}</h4>
+            <p class="text-sm font-semibold">Rp. {{ product.price }}</p>
+          </div>
+          <p class="w-[95%] mx-auto mt-4 text-sm">{{ product.description }}</p>
+
+          <div class="w-full bg-cyan-800 text-center mt-[1.75rem]">
+            <router-link
+              :to="`product/${product.id}`"
+              class="w-[95%] mx-auto mt-full text-sm text-white font-bold text-center"
+            >
+              View product
+            </router-link>
+          </div>
+        </div>
       </div>
 
       <!-- Pagination bar -->

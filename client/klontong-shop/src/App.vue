@@ -1,25 +1,4 @@
-<script setup>
-// import Navbar from './components/Navbar.vue'
-// import { ref, computed } from 'vue'
-
-// const currentPage = ref(1)
-// const pageSize = ref(10)
-// const totalItems = ref(100)
-
-// const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value))
-
-// const prevPage = () => {
-//   if (currentPage.value > 1) {
-//     currentPage.value--
-//   }
-// }
-
-// const nextPage = () => {
-//   if (currentPage.value < totalPages.value) {
-//     currentPage.value++
-//   }
-// }
-</script>
+<script setup></script>
 
 <template>
   <!-- <Navbar /> -->
