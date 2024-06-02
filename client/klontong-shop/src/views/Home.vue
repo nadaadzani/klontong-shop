@@ -104,7 +104,9 @@ watch(
           </div>
           <p class="w-[95%] mx-auto mt-4 text-sm">{{ product.description }}</p>
 
-          <div class="w-full bg-cyan-800 text-center mt-[1.75rem]">
+          <div
+            class="flex w-[50%] bg-cyan-800 text-center rounded-lg mx-auto h-8 items-center mt-4"
+          >
             <router-link
               :to="`product/${product.id}`"
               class="w-[95%] mx-auto mt-full text-sm text-white font-bold text-center"
@@ -125,7 +127,9 @@ watch(
           </div>
           <p class="w-[95%] mx-auto mt-4 text-sm">{{ product.description }}</p>
 
-          <div class="w-full bg-cyan-800 text-center mt-[1.75rem]">
+          <div
+            class="flex w-[50%] bg-cyan-800 text-center rounded-lg mx-auto h-8 items-center mt-4"
+          >
             <router-link
               :to="`product/${product.id}`"
               class="w-[95%] mx-auto mt-full text-sm text-white font-bold text-center"

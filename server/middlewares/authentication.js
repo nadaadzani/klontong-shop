@@ -5,6 +5,10 @@ const authentication = async (req, res, next) => {
         if (!req.headers.cookie) throw 'NotLoggedIn'
         const token = req.headers.cookie.split('=')[2]
 
+        // Postman Authorization
+        // if (!req.headers.authorization) throw 'NotLoggedIn'
+        // const token = req.headers.authorization.split(' ')[1]
+
 
         const user = verifyToken(token)
 

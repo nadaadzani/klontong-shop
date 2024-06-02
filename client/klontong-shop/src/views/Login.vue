@@ -25,7 +25,6 @@ const login = async () => {
 
     if (response.ok) {
       const data = await response.json()
-      console.log(data)
       Cookies.set('token', data.token)
       await router.push('/')
     } else {

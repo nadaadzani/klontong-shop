@@ -27,6 +27,7 @@ const addProduct = async (payload) => {
 
     const newProduct = {
         id: totalProducts + 1,
+        CategoryId: 1,
         ...payload,
         image: payload.image.url
     }

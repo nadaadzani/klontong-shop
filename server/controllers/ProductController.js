@@ -32,9 +32,8 @@ class ProductController {
 
   static async addProduct(req, res, next) {
     try {
-      // This is using urlencoded form data
-      const { CategoryId, categoryName, sku, name, description, weight, width, length, height, price } = req.body
-
+      const { categoryName, sku, name, description, weight, width, length, height, price } = req.body
+      // console.log(req.file, 'ini req.file')
       // This is using form data (multipart/form-data) for image uploading
       const { originalname, buffer } = req.file
       const imageInBase64 = buffer.toString("base64")
@@ -43,7 +42,7 @@ class ProductController {
         fileName: originalname,
       })
 
-      const newProduct = await addProduct({ CategoryId, categoryName, sku, name, description, weight, width, length, height, image, price })
+      const newProduct = await addProduct({ categoryName, sku, name, description, weight, width, length, height, image, price })
 
       res.status(201).json({
         message: 'Successfully added new product',

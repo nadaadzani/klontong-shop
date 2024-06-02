@@ -22,8 +22,7 @@ const register = async () => {
     })
 
     if (response.ok) {
-      const data = await response.json()
-      console.log(data)
+      await response.json()
       await router.push('/login')
     } else {
       usernameError.value = true
