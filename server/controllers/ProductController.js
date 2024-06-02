@@ -4,8 +4,9 @@ const imagekit = require("../utils/imagekit")
 class ProductController {
   static async readAllProducts(req, res, next) {
     try {
+      const { offset } = req.query
       // Accepts an argument for offset
-      const products = await getAllProducts(10)
+      const products = await getAllProducts(+offset)
 
       res.status(200).json({
         message: 'Successfully fetched all products',

@@ -2,9 +2,9 @@ const { verifyToken } = require("../utils/token")
 
 const authentication = async (req, res, next) => {
     try {
-        const { authorization } = req.headers
-        if (!authorization) throw 'NotLoggedIn'
-        const token = authorization.split(' ')[1]
+        if (!req.headers.cookie) throw 'NotLoggedIn'
+        const token = req.headers.cookie.split('=')[2]
+
 
         const user = verifyToken(token)
 

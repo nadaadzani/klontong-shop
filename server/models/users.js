@@ -31,7 +31,7 @@ const loginUser = async (username, password) => {
     const user = await db.collection(userCollection).findOne({ username: username })
 
     // Check if user is not found and password is not correct
-    if (!user) return 'InvalidCredentials'
+    if (user.username !== username) return 'InvalidCredentials'
     if (!comparePass(password, user.password)) return 'InvalidCredentials'
 
     return user
